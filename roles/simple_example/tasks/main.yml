@@ -1,0 +1,7 @@
+- name: Install vim
+  apt:
+    name: vim
+  register: aptout
+
+# show the content of aptout var
+- debug: var=aptout

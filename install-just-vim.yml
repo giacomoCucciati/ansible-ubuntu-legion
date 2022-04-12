@@ -1,0 +1,4 @@
+- name: install everything on the Legion
+  hosts: local_legion
+  roles:
+    - simple_example

@@ -1,0 +1,2 @@
+[local_legion]
+localhost ansible_connection=local
