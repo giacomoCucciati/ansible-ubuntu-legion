@@ -8,9 +8,15 @@ https://www.middlewareinventory.com/blog/run-ansible-playbook-locally/#Method2_U
 
  
 ```
-ansible-playbook -i my_hosts sampleplaybook.yml -C -K
+ansible-playbook -i my_hosts install-just-vim.yml -K -C
 with:
 -C: dry run
 -K: ask password
 ```
 
+```
+ansible-playbook -i my_hosts install-all.yml -K
+with:
+-C: dry run
+-K: ask password
+```

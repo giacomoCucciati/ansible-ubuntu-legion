@@ -1,7 +1,89 @@
 - name: Install vim
+  become: true
   apt:
     name: vim
   register: aptout
 
 # show the content of aptout var
 - debug: var=aptout
+
+# Install Chrome 
+- name: Download Chrome
+  get_url:
+    url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    dest: ~/Downloads
+
+- name: Install chrome .deb package
+  become: true
+  apt:
+    deb: /home/gcucciat/Downloads/google-chrome-stable_current_amd64.deb
+    state: present
+
+- name: Install telegram
+  become: true
+  apt:
+    name: telegram-desktop
+
+# Install Dropbox 
+#- name: Download Dropbox
+#  get_url:
+#    url: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2020.03.04_amd64.deb
+#    dest: ~/Downloads
+
+#- name: Install dropbox .deb package
+#  become: true
+#  apt:
+#    deb: /home/gcucciat/Downloads/dropbox_2020.03.04_amd64.deb
+#    state: present
+
+# Install x2goClient
+- name: Install x2go cilent
+  become: true
+  apt:
+    name: x2goclient
+    state: present
+
+# Install remmina
+- name: Add Remmina repository
+  become: true
+  ansible.builtin.apt_repository:
+    repo: ppa:remmina-ppa-team/remmina-next
+    update_cache: yes
+
+- name: Install remmina
+  become: true
+  apt:
+    pkg:
+    - remmina 
+    - remmina-plugin-rdp
+    - remmina-plugin-secret
+
+# Install keepass2
+- name: Install keepass2
+  become: true
+  apt:
+    name: keepass2
+    state: present
+
+# Install Zoom
+- name: Download Zoom
+  get_url:
+    url: https://zoom.us/client/latest/zoom_amd64.deb
+    dest: ~/Downloads
+
+- name: Install zoom .deb package
+  become: true
+  apt:
+    deb: /home/gcucciat/Downloads/zoom_amd64.deb
+    state: present
+
+- name: Create ECAL directory if it doesn't exist
+  ansible.builtin.file:
+    path: /home/gcucciat/Documents/ECAL
+    state: directory
+    #    mode: '0755'
+
+- name: Just get information about the repository whether or not it has already been cloned locally
+  ansible.builtin.git:
+    repo: 'https://gitlab.cern.ch/ecal-daq/passdb.git'
+    dest: /home/gcucciat/Documents/ECAL/passdb
