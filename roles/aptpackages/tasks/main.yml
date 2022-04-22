@@ -83,7 +83,56 @@
     state: directory
     #    mode: '0755'
 
-- name: Just get information about the repository whether or not it has already been cloned locally
+- name: Install ECAL password DB
   ansible.builtin.git:
     repo: 'https://gitlab.cern.ch/ecal-daq/passdb.git'
     dest: /home/gcucciat/Documents/ECAL/passdb
+
+- name: Install python3 venv
+  become: true
+  apt:
+    name: python3-venv
+    state: present
+
+- name: Create python-venv directory if it doesn't exist
+  ansible.builtin.file:
+    path: /home/gcucciat/Documents/python-venv
+    state: directory
+
+# Install mongodb
+- name: Install mongo
+  become: true
+  ansible.builtin.apt_key:
+    url: https://www.mongodb.org/static/pgp/server-5.0.asc
+    state: present
+
+- name: Add file source list for mongo
+  become: true
+  ansible.builtin.apt_repository:
+    repo: deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse
+    filename: mongodb-org-5.0
+    state: present
+
+- name: Install mongo package
+  become: true
+  apt:
+    name: mongodb-org
+    state: present
+
+- name: Install curl
+  become: true
+  apt:
+    name: curl
+    state: present
+
+- name: Install nvm 
+  ansible.builtin.shell: curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+
+- name: source bashrc
+  ansible.builtin.shell: source ~/.bashrc
+  args:
+     executable: /bin/bash
+
+
+
+
